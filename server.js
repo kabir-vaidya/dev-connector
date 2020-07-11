@@ -8,6 +8,10 @@ const connectDB = require("./config/db");
 //Connect to database
 connectDB();
 
+//Init Middleware
+app.use(express.json({extended: false}));
+
+
 //ROUTERS
 app.use("/api/users", require("./routes/api/users"));
 app.use("/api/posts", require("./routes/api/posts"));
