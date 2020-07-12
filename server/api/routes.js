@@ -5,7 +5,9 @@ const userRoutes = require('./components/user/routes')
 const profileRoutes = require('./components/profile/routes')
 const postsRoutes = require('./components/posts/routes')
 
-router.use("/api/users", userRoutes);
-router.use("/api/posts", postsRoutes);
-router.use("/api/auth", authRoutes);
-router.use("/api/profile", profileRoutes);
+router.use("/user", userRoutes);
+router.use("/posts", postsRoutes);
+router.use("/auth", authRoutes);
+router.use("/profile", profileRoutes);
+
+module.exports = router;
