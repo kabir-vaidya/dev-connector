@@ -1,9 +1,12 @@
 const authService = require('./service');
 const {validationResult} = require("express-validator");
 const userService = require("../user/service");
-const utilityService = require("../../service/utility");
+const utilityService = require("../../services/utility");
 
-exports.login = (req,res,next) => {
+// @desc        Login User
+// @route       POST         /api/auth/login
+// @access      PUBLIC
+exports.login = async (req,res,next) => {
     //Check for validation errors
     const errors = validationResult(req);
     if(!errors.isEmpty()){
@@ -31,7 +34,7 @@ exports.login = (req,res,next) => {
             })
         }
 
-        const token = await utilityService(user.id);
+        const token = await utilityService.generateToken(user.id);
         res.status(200).json({ token });
         
     } catch (err) {

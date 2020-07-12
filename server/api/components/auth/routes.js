@@ -1,11 +1,9 @@
 const router = require('express').Router();
 const authController = require('./controller');
-const loginValidation = require('./validator');
+const {loginValidator} = require('./validator');
 
-// @desc        Login User
-// @route       POST         /api/auth/login
-// @access      PUBLIC
-router.post("/login", loginValidation, authController.login);
+
+router.post("/login", loginValidator, authController.login);
 
 
 module.exports = router;

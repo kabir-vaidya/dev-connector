@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const User = require('./model');
 const config = require('config');
 const gravatar = require('gravatar');
+const utilityService = require('../../services/utility');
 
 exports.read = async (email)=>{
     try {
@@ -40,14 +41,7 @@ exports.createUser = async ({name, email, password})=>{
             user.password = await bcrypt.hash(password, salt);
             await user.save();
             //Return jsonwebtoken
-            const payload = {
-                user: {
-                    id: user.id // same as user._id
-                }
-            }
-            let token = jwt.sign( payload,
-                 config.get("jwtSecret"),
-                { expiresIn: 360000 });
+            const token = await utilityService.generateToken(user.id);
             return token;
         } catch (err) {
             throw err;
