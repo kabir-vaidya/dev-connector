@@ -9,20 +9,17 @@ const config = require('config');
 // @route       POST         api/users
 // @access      PUBLIC
 exports.registerUser = async (req, res, next) => {
+    //Check for validation errors
     const errors = validationResult(req);
-    // console.log(errors);
     if(!errors.isEmpty()){
         return res.status(400).json({
             success: false,
             errors: errors.array()
         })
-    }
-    
+    }    
     const {name, email, password} = req.body;
-    
     try {
         let user = await User.findOne({email});
-
         //See if user exists
         if(user){
             return res.status(400).json({
@@ -36,31 +33,28 @@ exports.registerUser = async (req, res, next) => {
             r: 'x',
             d: "mm"
         })
-
         user = new User({
             name, 
             email,
             avatar,
             password
         });
-
         //Encrypt password
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(password, salt);
         await user.save();
-
         //Return jsonwebtoken
         const payload = {
             user: {
                 id: user.id // same as user._id
             }
         }
-
-        jwt.sign(payload, config.get("jwtSecret"),
+        jwt.sign( payload,
+             config.get("jwtSecret"),
             { expiresIn: 360000 },
             (err, token) => {
                 if(err) throw err;
-                res.json({ token });
+                res.status(200).json({ token });
             });
 
         
