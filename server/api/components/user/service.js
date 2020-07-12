@@ -13,6 +13,15 @@ exports.read = async (email)=>{
     }
 }
 
+exports.getUser = async (id) => {
+    try {
+        const user = await User.findById(id).select("-password");
+        return user;
+    } catch (err) {
+        console.log(err.message);
+    }
+}
+
 exports.createUser = async ({name, email, password})=>{
         try {
             const avatar = gravatar.url(email, {

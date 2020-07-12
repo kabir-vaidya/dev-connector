@@ -1,10 +1,10 @@
 const router = require('express').Router();
 
 
-// @desc        Test Route
-// @route       GET         api/users
+// @desc        Get user from token
+// @route       GET         /api/auth
 // @access      PUBLIC
-router.get("/", (req,res) => res.send('Auth Route'));
+router.get("/", );
 
 
 module.exports = router;

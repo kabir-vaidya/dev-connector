@@ -1,9 +1,10 @@
 const router = require('express').Router();
-const {createUser} = require("./controller")
+const userController = require("./controller")
 const {registerUserValidator} = require("./validator");
+const verifyToken = require("../../middleware/auth");
 
 router
-    .get("/", (req,res) => res.send('User Route'))
-    .post("/",registerUserValidator, createUser);
+    .get("/", verifyToken, userController.getUser)
+    .post("/",registerUserValidator, userController.createUser);
 
 module.exports = router;
